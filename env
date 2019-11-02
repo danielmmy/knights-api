@@ -1,0 +1,6 @@
+ADDRESS=0.0.0.0
+PORT=3000
+
+MONGODB_URI=mongodb://localhost/realm
+
+BASE_ATTACK=10

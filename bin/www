@@ -3,6 +3,11 @@
 const app = require('..')
 const debug = require('../lib/debug')('bin:www')
 
-app.listen(3000, '0.0.0.0', () => {
-    debug('listening on 0.0.0.0:3000')
+const {
+    PORT,
+    ADDRESS
+} = process.env
+
+app.listen(PORT, ADDRESS, () => {
+    debug(`listening on ${ADDRESS}:${PORT}`)
 })
