@@ -2,22 +2,26 @@ const { Router } = require('express')
 
 const bodyParser = require('../lib/body-parser')
 const debug = require('../lib/debug')('routes:knights')
-const controller = require('../controllers/knights')
+const knight = require('../controllers/knights')
 
 const router = Router()
 
 
 router.route('/')
-    .get(controller.list)
-    .post(bodyParser, controller.insert)
+    .get(knight.list)
+    .post(bodyParser, knight.insert)
 
 
 router.route('/:id')
-    .get(controller.findById)
-    .put(bodyParser, controller.update)
-    .delete(controller.delete)
+    .get(knight.findById)
+    .put(bodyParser, knight.update)
+    .delete(knight.delete)
 
-router.route('/:id/equips')
-    .get(controller.equips)
+router.route('/:id/weapons')
+    .get(knight.weapons)
+    .post(bodyParser,knight.addToInventory)
+
+router.route('/:id/weapons/equip')
+    .patch(bodyParser, knight.equip)
 
 module.exports = router
