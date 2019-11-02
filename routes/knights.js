@@ -14,5 +14,5 @@ router.route('/')
 
 router.route('/:id')
     .get(controller.findById)
-    
+    .delete(controller.delete)
 module.exports = router

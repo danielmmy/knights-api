@@ -17,5 +17,17 @@ module.exports = {
 
     findById (id) {
         return KNIGHTS[id]
-    }
+    },
+
+    updateOne (id) {
+
+    },
+
+    delete (id) {
+        if (!KNIGHTS[id]) {
+            return false
+        }
+        KNIGHTS.splice(id, 1)
+        return true
+    },
 }
