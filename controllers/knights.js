@@ -33,6 +33,25 @@ exports.findById = (req, res) => {
     }
 }
 
+exports.update = (req, res) => {
+    try {
+        const { id } = req.params
+        const { body } = req
+
+        debug(id, JSON.stringify(body, null,2 ))
+
+        const updatedKnight = Knight.updateOne(id, body)
+
+        if (!updatedKnight) {
+            return res.status(404).json({ message: 'Knight not found' })
+        }
+
+        res.json(updatedKnight)
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+}
+
 exports.delete = (req, res) => {
     try {
         const { id } = req.params

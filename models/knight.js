@@ -19,8 +19,11 @@ module.exports = {
         return KNIGHTS[id]
     },
 
-    updateOne (id) {
-
+    updateOne (id, body) {
+        const knight = KNIGHTS[id]
+        if (!knight) { return null }
+        KNIGHTS[id] = { ...KNIGHTS[id], ...body }
+        return KNIGHTS[id]
     },
 
     delete (id) {
