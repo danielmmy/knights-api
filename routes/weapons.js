@@ -11,4 +11,7 @@ router.route('/')
     .get(controller.list)
     .post(bodyParser, controller.insert)
 
+router.route('/:id')
+    .delete(controller.delete)
+
 module.exports = router

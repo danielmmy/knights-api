@@ -22,3 +22,17 @@ exports.insert = async (req, res) => {
         res.status(500).json({ message: err.message })
     }
 }
+
+exports.delete = async (req, res) => {
+    try {
+        const { id } = req.params
+        const deleted = await Weapon.findByIdAndDelete(id)
+        if (!deleted){
+            return res.status(404).json({ message: 'Weapon not found' })
+        }
+        res.status(204).json()
+
+    } catch (err) {
+        res.status(500).json({message: err.message})
+    }
+}
