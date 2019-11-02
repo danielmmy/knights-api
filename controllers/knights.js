@@ -1,31 +1,31 @@
 const debug = require('../lib/debug')('controllers:knights')
 const Knight = require('../models/knight')
 
-exports.list = (req, res) => {
+exports.list = async (req, res) => {
     try {
-        const knights = Knight.find()
-        debug(JSON.stringify(knights, null, 2))
+        const knights = await Knight.find()
+        debug('knights', JSON.stringify(knights, null, 2))
         res.json({ docs: knights })
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
 }
 
-exports.insert = (req, res) => {
+exports.insert = async (req, res) => {
     try {
         const { body } = req
         debug('body', JSON.stringify(body))
-        const knight = Knight.insert(body)
+        const knight = await Knight.create(body)
         res.status(201).json(knight)
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
 }
 
-exports.findById = (req, res) => {
+exports.findById = async (req, res) => {
     try {
         const { id } = req.params
-        const knight = Knight.findById(id)
+        const knight = await Knight.findById(id)
         if (!knight) { return res.status(404).json({ message: 'Knight not found' })}
         res.json(knight)
     } catch (err) {
@@ -33,14 +33,14 @@ exports.findById = (req, res) => {
     }
 }
 
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
     try {
         const { id } = req.params
         const { body } = req
 
         debug(id, JSON.stringify(body, null,2 ))
 
-        const updatedKnight = Knight.updateOne(id, body)
+        const updatedKnight = await Knight.findByIdAndUpdate(id, body, { new: true })
 
         if (!updatedKnight) {
             return res.status(404).json({ message: 'Knight not found' })
@@ -52,11 +52,12 @@ exports.update = (req, res) => {
     }
 }
 
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
     try {
         const { id } = req.params
-        if (!Knight.delete(id)){
-            return res.status(404).json({message: 'Knight not found'})
+        const deleted = await Knight.findByIdAndDelete(id)
+        if (!deleted){
+            return res.status(404).json({ message: 'Knight not found' })
         }
         res.status(204).json()
 
