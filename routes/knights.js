@@ -1,12 +1,12 @@
 const { Router } = require('express')
 
 const debug = require('../lib/debug')('routes:knights')
+const controller = require('../controllers/knights')
 
 const router = Router()
 
+
 router.route('/')
-    .get((req, res) => {
-        return res.json({ foo: 'bar' })
-    })
+    .get(controller.list)
 
 module.exports = router
