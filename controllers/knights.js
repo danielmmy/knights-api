@@ -65,3 +65,14 @@ exports.delete = async (req, res) => {
         res.status(500).json({message: err.message})
     }
 }
+
+exports.equips = async (req, res) => {
+    try {
+        const { id } = req.params
+        const select = { _id: 0, weapons: 1 }
+        const equipments = await Knight.findById(id).select(select)
+        res.json({ docs: equipments.weapons })
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+}

@@ -10,7 +10,16 @@ const schema = new Schema({
     nickname: String,
     birthday: Date,
     gender: String,
-    weapons: [],
+    weapons: [{
+        weapon: {
+            type: Schema.Types.ObjectId,
+            ref: 'Weapon'
+        },
+        equipped: {
+            type: Boolean,
+            default: false
+        },
+    }],
     attributes: {
         strength: Number,
         dexterity: Number,

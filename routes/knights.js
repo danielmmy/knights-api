@@ -16,5 +16,8 @@ router.route('/:id')
     .get(controller.findById)
     .put(bodyParser, controller.update)
     .delete(controller.delete)
-    
+
+router.route('/:id/equips')
+    .get(controller.equips)
+
 module.exports = router
