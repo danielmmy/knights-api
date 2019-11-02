@@ -10,3 +10,14 @@ exports.list = (req, res) => {
         res.status(500).json({ message: err.message })
     }
 }
+
+exports.insert = (req, res) => {
+    try {
+        const { body } = req
+        debug('body', JSON.stringify(body))
+        const knight = Knight.insert(body)
+        res.status(201).json(knight)
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+}

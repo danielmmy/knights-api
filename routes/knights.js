@@ -8,5 +8,6 @@ const router = Router()
 
 router.route('/')
     .get(controller.list)
+    .post(controller.insert)
 
 module.exports = router

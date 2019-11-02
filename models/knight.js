@@ -9,4 +9,9 @@ module.exports = {
     find () {
         return KNIGHTS
     },
+
+    insert (knight) {
+        KNIGHTS.push(knight)
+        return knight
+    }
 }
