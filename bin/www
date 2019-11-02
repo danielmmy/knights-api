@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+
+const app = require('..')
+const debug = require('../lib/debug')('bin:www')
+
+app.listen(3000, '0.0.0.0', () => {
+    debug('listening on 0.0.0.0:3000')
+})

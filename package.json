@@ -1,0 +1,37 @@
+{
+  "name": "knights-api",
+  "version": "0.0.1",
+  "description": "Knights REST API",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=production node bin/www",
+    "test": "mocha --recursive",
+    "ci": "mocha --recursive -w",
+    "dev": "nodemon bin/www"
+  },
+  "keywords": [
+    "knights",
+    "petragold",
+    "api",
+    "rest",
+    "express",
+    "mongodb",
+    "mocha"
+  ],
+  "author": "Daniel Yokoyama",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "^4.1.1",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "mocha": "^6.2.2",
+    "nodemon": "^1.19.4",
+    "supertest": "^4.0.2"
+  }
+}
