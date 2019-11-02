@@ -13,5 +13,9 @@ module.exports = {
     insert (knight) {
         KNIGHTS.push(knight)
         return knight
+    },
+
+    findById (id) {
+        return KNIGHTS[id]
     }
 }
