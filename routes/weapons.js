@@ -9,6 +9,6 @@ const router = Router()
 
 router.route('/')
     .get(controller.list)
-    //.post(bodyParser, controller.insert)
+    .post(bodyParser, controller.insert)
 
 module.exports = router

@@ -11,3 +11,14 @@ exports.list = async (req, res) => {
         res.status(500).json({ message: err.message })
     }
 }
+
+exports.insert = async (req, res) => {
+    try {
+        const { body } = req
+        debug('body', JSON.stringify(body))
+        const weapon = await Weapon.create(body)
+        res.status(201).json(weapon)
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+}
