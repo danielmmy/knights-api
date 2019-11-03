@@ -3,7 +3,7 @@ const Knight = require('../models/knight')
 
 exports.list = async (req, res) => {
     try {
-        const knights = await Knight.find()
+        const knights = await Knight.find().populate(['weapons.weapon'])
         debug('knights', JSON.stringify(knights, null, 2))
         res.json({ docs: knights })
     } catch (err) {
@@ -25,7 +25,7 @@ exports.insert = async (req, res) => {
 exports.findById = async (req, res) => {
     try {
         const { id } = req.params
-        const knight = await Knight.findById(id)
+        const knight = await Knight.findById(id).populate(['weapons.weapon'])
         if (!knight) { return res.status(404).json({ message: 'Knight not found' })}
         res.json(knight)
     } catch (err) {

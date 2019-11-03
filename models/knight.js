@@ -1,6 +1,7 @@
 const { Schema } = require('mongoose')
 const { table } = require('../lib/mod')
 const conn = require('../lib/mongoose')
+const debug = require('../lib/debug')('models:knight')
 const options = { toJSON: { virtuals: true } }
 
 const baseAttack = Number(process.env.BASE_ATTACK) || 10
@@ -32,8 +33,13 @@ const schema = new Schema({
 }, options)
 
 schema.virtual('attack').get(function () {
-    const equippedWeapon = this.weapons.find((w) => w.equipped) || { mod: 0}
-    return baseAttack + table(this.attributes[this.keyAttribute]) + equippedWeapon.mod 
+    const equippedWeapon = this.weapons.find((w) => w.equipped)
+    if(!equippedWeapon){
+        return baseAttack + table(this.attributes[this.keyAttribute])
+    }
+    const key = (equippedWeapon.weapon.attr || '').toLowerCase()
+    debug('attr', key, this.attributes[key])
+    return baseAttack + table(this.attributes[key]) + equippedWeapon.weapon.mod
 })
 
 schema.virtual('age').get(function () {
