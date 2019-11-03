@@ -4,13 +4,33 @@ const Knight = require('../models/knight')
 exports.list = async (req, res) => {
     try {
         const { filter } = req.query
+        const project = {
+            name: 1,
+            birthday: 1,
+            weapons: 1,
+            attributes: 1,
+            keyAttribute: 1,
+        }
         const query = {}
         if (filter && filter.toLowerCase() === 'heroes') {
             query.decease = { $exists: true }
         }
-        const knights = await Knight.find(query).populate(['weapons.weapon'])
-        debug('knights', JSON.stringify(knights, null, 2))
-        res.json({ docs: knights })
+        const knights = await Knight.find(query, project).populate(['weapons.weapon'])
+        
+        // Change the payload to respect the test
+        const knightsPayload = []
+        for (let knight of knights) {
+            knightsPayload.push({
+                _id: knight._id,
+                name: knight.name,
+                age: knight.age,
+                keyAttribute: knight.keyAttribute,
+                attack: knight.attack,
+                experience: knight.experience,
+                weaponsCount: knight.weapons.length,
+            })
+        }
+        res.json({ docs: knightsPayload })
     } catch (err) {
         res.status(500).json({ message: err.message })
     }

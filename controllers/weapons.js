@@ -4,7 +4,7 @@ const Weapon = require('../models/weapon')
 
 exports.list = async (req, res) => {
     try {
-        const weapons = await Weapon.find()
+        const weapons = await Weapon.find({})
         debug('weapons', JSON.stringify(weapons, null, 2))
         res.json({ docs: weapons })
     } catch (err) {
