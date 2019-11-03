@@ -45,6 +45,7 @@ describe('REST API', () => {
         
         afterEach (async () => {
             await Knight.deleteMany()
+            await Weapon.deleteMany()
         })
 
         it ('LIST /knights', async () => {
@@ -138,7 +139,6 @@ describe('REST API', () => {
                     }
                 }
             },{ new: true })
-            console.log('new weapon', knight)
 
             const body = {
                 "_id": knight.weapons[0]._id
@@ -157,7 +157,13 @@ describe('REST API', () => {
             
         })
 
-        it ('DELETE /knight/:id')
+        it ('DELETE /knight/:id', async () => {
+            const res = await request(app)
+                .delete(`/knights/${KNIGHT_LINK_ID}`)
+                .expect(204)
+            const knight = await Knight.findById(KNIGHT_LINK_ID)
+            expect(knight).to.be.equal(null)
+        })
 
         
     })
