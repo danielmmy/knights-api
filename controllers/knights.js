@@ -97,8 +97,23 @@ exports.addToInventory = async (req, res) => {
 exports.equip = async (req, res) => {
     try {
         const { id } = req.params
-        const { body } = req
+        const weapon = req.body._id
+        const query = { _id: id, 'weapons._id': weapon }
+        debug('query', query)
 
+        let result = await Knight.updateMany(query, {
+            $set: {
+                'weapons.$[].equipped': false
+            }
+        })
+
+        result = await Knight.updateMany(query, {
+            $set: {
+                'weapons.$.equipped': true
+            }
+        })
+        debug('equipped', JSON.stringify(result, null, 2))
+        res.json(result)
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
