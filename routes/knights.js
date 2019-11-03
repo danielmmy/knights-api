@@ -15,6 +15,7 @@ router.route('/')
 router.route('/:id')
     .get(knight.findById)
     .put(bodyParser, knight.update)
+    .patch(bodyParser, knight.updateNickname)
     .delete(knight.delete)
 
 router.route('/:id/weapons')

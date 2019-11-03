@@ -52,6 +52,23 @@ exports.update = async (req, res) => {
     }
 }
 
+exports.updateNickname = async (req, res) => {
+    try {
+        const { id } = req.params
+        const { nickname } = req.body
+
+        const updatedKnight = await Knight.findByIdAndUpdate(id, {nickname}, {new: true})
+
+        if (!updatedKnight) {
+            return res.status(404).json({ message: 'Knight not found' })
+        }
+
+        res.json(updatedKnight)
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+}
+
 exports.delete = async (req, res) => {
     try {
         const { id } = req.params
