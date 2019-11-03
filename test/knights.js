@@ -165,10 +165,19 @@ describe('REST API', () => {
             expect(knight).to.be.equal(null)
         })
 
-        
-    })
+        it ('GET /knights?filter=heroes', async () => {
+            /*kills the hero of hyrule :( */
+            const query = { _id: KNIGHT_LINK_ID, decease: { $exists: false }}
+            const result = await Knight.updateOne(query, { decease: Date() }, { new: true })
 
-    describe ('Heroes', () => {
-        it ('GET /knights?filter=heroes')
+            const res = await request(app)
+                .get(`/knights?filter=heroes`)
+                .expect(200)
+            res.should.have.property('body').that.is.an('object')
+            res.body.should.have.property('docs').that.is.an('array').not.length(0)
+            res.body.docs[0].should.have.property('_id').equals(`${KNIGHT_LINK_ID}`)
+        })
+
+        
     })
 })
