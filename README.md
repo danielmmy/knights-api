@@ -45,6 +45,12 @@ npm run dev
 npm run ci
 ```
 
+## Extra
+
+### Containers
+
+Docker
+
 ## API Documentation
 
 The REST API documentation is [here](https://documenter.getpostman.com/view/9352363/SW14Tw8A?version=latest){:target="_blank"}.
