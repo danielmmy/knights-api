@@ -47,7 +47,7 @@ npm run ci
 
 ## API Documentation
 
-The REST API documentation is [here](https://documenter.getpostman.com/view/9352363/SW14Tw8A?version=latest)
+The REST API documentation is [here](https://documenter.getpostman.com/view/9352363/SW14Tw8A?version=latest){:target="_blank"}.
 
 ## License
 [MIT](LICENSE)
