@@ -69,6 +69,17 @@ exports.updateNickname = async (req, res) => {
     }
 }
 
+exports.softDelete = async (req, res) => {
+    try {
+        const { id } = req.params
+        const query = { _id: id, decease: { $exists: false }}
+        const result = await Knight.updateOne(query, { decease: Date() }, { new: true })
+        res.json(result)
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+}
+
 exports.delete = async (req, res) => {
     try {
         const { id } = req.params

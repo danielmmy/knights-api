@@ -18,6 +18,8 @@ router.route('/:id')
     .patch(bodyParser, knight.updateNickname)
     .delete(knight.delete)
 
+router.route('/:id/died').patch(knight.softDelete)
+
 router.route('/:id/weapons')
     .get(knight.weapons)
     .post(bodyParser,knight.addToInventory)

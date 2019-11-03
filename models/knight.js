@@ -10,6 +10,7 @@ const schema = new Schema({
     name: String,
     nickname: String,
     birthday: Date,
+    decease: Date,
     gender: String,
     weapons: [{
         weapon: {
