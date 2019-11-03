@@ -17,7 +17,7 @@ router.route('/:id')
     .put(bodyParser, knight.update)
     .patch(bodyParser, knight.updateNickname)
     .delete(knight.delete)
-
+    
 router.route('/:id/died').patch(knight.softDelete)
 
 router.route('/:id/weapons')

@@ -3,7 +3,12 @@ const Knight = require('../models/knight')
 
 exports.list = async (req, res) => {
     try {
-        const knights = await Knight.find().populate(['weapons.weapon'])
+        const { filter } = req.query
+        const query = {}
+        if (filter && filter.toLowerCase() === 'heroes') {
+            query.decease = { $exists: true }
+        }
+        const knights = await Knight.find(query).populate(['weapons.weapon'])
         debug('knights', JSON.stringify(knights, null, 2))
         res.json({ docs: knights })
     } catch (err) {
