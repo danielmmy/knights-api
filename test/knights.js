@@ -1,6 +1,7 @@
 const { Should, expect } = require('chai')
 const request = require('supertest')
 const Knight = require('../models/knight')
+const Weapon = require('../models/weapon')
 const {Types} = require('mongoose')
 
 const app = require('..')
@@ -26,10 +27,21 @@ describe('REST API', () => {
             keyAttribute: 'dexterity'
         }
         let KNIGHT_LINK_ID
+
+        describe ('Weapons', () => {
+            const WEAPON_LONGBOW = {
+                    "name": "LongBow",
+                    "mod": 3,
+                    "attr": "Dexterity"
+            }
+            let WEAPON_LONGBOW_ID
+        
         
         beforeEach (async () => {
             const knight = await Knight.create(KNIGHT_LINK)
             KNIGHT_LINK_ID = knight._id
+            const weapon = await Weapon.create(WEAPON_LONGBOW)
+            WEAPON_LONGBOW_ID = weapon._id
         })
         
         afterEach (async () => {
@@ -117,10 +129,27 @@ describe('REST API', () => {
             
         })
 
+        it ('PATCH /knight/:id/weapons/equip', async () => {
+            const body = {
+                "_id": WEAPON_LONGBOW_ID
+            }
+            const res = await request(app)
+                .patch(`/knights/${KNIGHT_LINK_ID}/weapons/equip`)
+                .send(body)
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(200)
+            
+            const knight = await Knight.findById(KNIGHT_LINK_ID)
+            //expect(knight).property('weapons').length()
+            console.log("weapons:",knight.weapons.length)
+            
+        })
+
         it ('DELETE /knight/:id')
 
         
-    })
+    })})
 
     describe ('Heroes', () => {
         it ('GET /knights?filter=heroes')
