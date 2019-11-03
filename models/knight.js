@@ -36,4 +36,16 @@ schema.virtual('attack').get(function () {
     return baseAttack + table(this.attributes[this.keyAttribute]) + equippedWeapon.mod 
 })
 
+schema.virtual('age').get(function () {
+    return Math.floor((new Date() - this.birthday) / 1000 / 60 / 60 / 24 / 365)
+})
+
+schema.virtual('experience').get(function () {
+    const age =  Math.floor((new Date() - this.birthday) / 1000 / 60 / 60 / 24 / 365)
+    if (age < 8){
+        return 0
+    }
+    return Math.floor( (age-7) * Math.pow(22, 1.45) )
+})
+
 module.exports = conn.model('Knight', schema)
