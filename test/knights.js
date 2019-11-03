@@ -88,7 +88,22 @@ describe('REST API', () => {
             res.body.attributes.strength.should.be.equals(18)
         })
 
+        it ('PATCH /knight', async () => {
+            const body = {
+                "nickname": "The green hero"
+            }
+            const res = await request(app)
+                .patch(`/knights/${KNIGHT_LINK_ID}`)
+                .send(body)
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(200)
+            res.body.nickname.should.be.equals(body.nickname)
+        })
+
         it ('DELETE /knight/:id')
+
+        
     })
 
     describe ('Heroes', () => {
