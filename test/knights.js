@@ -1,4 +1,4 @@
-const { Should } = require('chai')
+const { Should, expect } = require('chai')
 const request = require('supertest')
 const Knight = require('../models/knight')
 const {Types} = require('mongoose')
@@ -88,7 +88,7 @@ describe('REST API', () => {
             res.body.attributes.strength.should.be.equals(18)
         })
 
-        it ('PATCH /knight', async () => {
+        it ('PATCH /knight/:id', async () => {
             const body = {
                 "nickname": "The green hero"
             }
@@ -99,6 +99,22 @@ describe('REST API', () => {
                 .expect('Content-Type', /json/)
                 .expect(200)
             res.body.nickname.should.be.equals(body.nickname)
+        })
+
+        it ('PATCH /knight/:id/died', async () => {
+            const body = {
+                "nickname": "The green hero"
+            }
+            const res = await request(app)
+                .patch(`/knights/${KNIGHT_LINK_ID}/died`)
+                .send(body)
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(200)
+            
+            const knight = await Knight.findById(KNIGHT_LINK_ID)
+            expect(knight).property('decease')
+            
         })
 
         it ('DELETE /knight/:id')
