@@ -75,7 +75,19 @@ describe('REST API', () => {
             knight.name.should.be.equals(KNIGHT_LINK.name)
         })
 
-        it ('PUT /knight')
+        it ('PUT /knight', async () => {
+            const body = {
+                "attributes.strength": 18
+            }
+            const res = await request(app)
+                .put(`/knights/${KNIGHT_LINK_ID}`)
+                .send(body)
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(200)
+            res.body.attributes.strength.should.be.equals(18)
+        })
+
         it ('DELETE /knight/:id')
     })
 
