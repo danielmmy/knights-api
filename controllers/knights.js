@@ -135,14 +135,14 @@ exports.addToInventory = async (req, res) => {
     try {
         const { id } = req.params
         const { body } = req
-        const asd= await Knight.findByIdAndUpdate(id, {
+        const knight= await Knight.findByIdAndUpdate(id, {
             $push: {
                 weapons: {
                     weapon: body._id
                 }
             }
         })
-        res.status(204).json()
+        res.status(200).json(knight.weapons.pop())
     } catch (err) {        
         res.status(500).json({ message: err.message })
     }

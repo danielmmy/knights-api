@@ -28,13 +28,12 @@ describe('REST API', () => {
         }
         let KNIGHT_LINK_ID
 
-        describe ('Weapons', () => {
-            const WEAPON_LONGBOW = {
-                    "name": "LongBow",
-                    "mod": 3,
-                    "attr": "Dexterity"
-            }
-            let WEAPON_LONGBOW_ID
+        const WEAPON_LONGBOW = {
+                "name": "LongBow",
+                "mod": 3,
+                "attr": "Dexterity"
+        }
+        let WEAPON_LONGBOW_ID
         
         
         beforeEach (async () => {
@@ -130,26 +129,38 @@ describe('REST API', () => {
         })
 
         it ('PATCH /knight/:id/weapons/equip', async () => {
+            
+            /*Add one weapon to inventory */
+            let knight = await Knight.findByIdAndUpdate(KNIGHT_LINK_ID, {
+                $push: {
+                    weapons: {
+                        weapon: WEAPON_LONGBOW_ID
+                    }
+                }
+            },{ new: true })
+            console.log('new weapon', knight)
+
             const body = {
-                "_id": WEAPON_LONGBOW_ID
+                "_id": knight.weapons[0]._id
             }
+
             const res = await request(app)
                 .patch(`/knights/${KNIGHT_LINK_ID}/weapons/equip`)
                 .send(body)
                 .set('Accept', 'application/json')
                 .expect('Content-Type', /json/)
                 .expect(200)
-            
-            const knight = await Knight.findById(KNIGHT_LINK_ID)
-            //expect(knight).property('weapons').length()
-            console.log("weapons:",knight.weapons.length)
+
+            expect(res.body.nModified == 1)            
+            knight = await Knight.findById(KNIGHT_LINK_ID)
+            expect(knight.weapons[0].equipped)
             
         })
 
         it ('DELETE /knight/:id')
 
         
-    })})
+    })
 
     describe ('Heroes', () => {
         it ('GET /knights?filter=heroes')
