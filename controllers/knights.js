@@ -54,6 +54,7 @@ exports.findById = async (req, res) => {
         if (!knight) { return res.status(404).json({ message: 'Knight not found' })}
         res.json(knight)
     } catch (err) {
+        console.log(err)
         res.status(500).json({message: err.message})
     }
 }

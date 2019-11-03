@@ -1,6 +1,7 @@
 const { Should } = require('chai')
 const request = require('supertest')
 const Knight = require('../models/knight')
+const {Types} = require('mongoose')
 
 const app = require('..')
 
@@ -28,7 +29,7 @@ describe('REST API', () => {
         
         beforeEach (async () => {
             const knight = await Knight.create(KNIGHT_LINK)
-            const KNIGHT_LINK_ID = knight._id
+            KNIGHT_LINK_ID = knight._id
         })
         
         afterEach (async () => {
@@ -53,8 +54,27 @@ describe('REST API', () => {
         })
 
         
-        it ('GET /knight/:id')
-        it ('POST /knight')
+        it ('GET /knight/:id', async () => {
+            const res = await request(app).get(`/knights/${KNIGHT_LINK_ID}`)
+            res.status.should.be.equals(200)
+            res.should.have.property('body').that.is.an('object')
+            res.body.should.have.property('name').equals(KNIGHT_LINK.name)
+        })
+
+        it ('POST /knight', async () => {
+            const res = await request(app)
+                .post('/knights')
+                .send(KNIGHT_LINK)
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(201)
+
+            const { _id } = res.body
+            const knight = await Knight.findById(_id)
+            knight._id.should.be.deep.equals(Types.ObjectId(_id))
+            knight.name.should.be.equals(KNIGHT_LINK.name)
+        })
+
         it ('PUT /knight')
         it ('DELETE /knight/:id')
     })
