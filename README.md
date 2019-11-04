@@ -43,7 +43,7 @@ npm run dev
 ### Running for CI
 
 ```bash
-MONGODB_URI='mongodb+srv://danielmmy:adm123@cluster0-ed4ff.mongodb.net/test?retryWrites=true&w=majority' npm run ci
+MONGODB_URI='mongodb+srv://<username>:<password>@cluster0-ed4ff.mongodb.net/test?retryWrites=true&w=majority' npm run ci
 ```
 
 ## Extra
@@ -54,7 +54,7 @@ Docker
 
 ## API Documentation
 
-The REST API documentation is [here](https://documenter.getpostman.com/view/9352363/SW14Tw8A?version=latest){:target="_blank"}.
+The REST API documentation is [here](https://documenter.getpostman.com/view/9352363/SW14Tw8A?version=latest).
 
 ## License
 [MIT](LICENSE)
