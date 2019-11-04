@@ -192,6 +192,22 @@ describe('REST API', () => {
             const knight = await Knight.findById(KNIGHT_LINK_ID)
             expect(knight).to.be.equal(null)
         })
+
+        it ('GET /knights/:id/weapons', async () => {
+            /*Add one weapon to inventory */
+            const knight = await Knight.findByIdAndUpdate(KNIGHT_LINK_ID, {
+                $push: {
+                    weapons: {
+                        weapon: WEAPON_LONGBOW_ID
+                    }
+                }
+            },{ new: true })
+            const res = await request(app).get(`/knights/${KNIGHT_LINK_ID}/weapons`)
+            res.status.should.be.equals(200)
+            res.should.have.property('body').that.is.an('object')
+            res.body.should.have.property('docs').that.is.an('array').not.length(0)
+            res.body.docs[0].should.have.property('_id').equals(JSON.parse(JSON.stringify(knight.weapons[0]._id)))
+        })
         
     })
 })
