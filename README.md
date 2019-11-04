@@ -43,7 +43,7 @@ npm run dev
 ### Running for CI
 
 ```bash
-npm run ci
+MONGODB_URI='mongodb+srv://danielmmy:adm123@cluster0-ed4ff.mongodb.net/test?retryWrites=true&w=majority' npm run ci
 ```
 
 ## Extra
