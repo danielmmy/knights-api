@@ -65,7 +65,6 @@ describe('REST API', () => {
             res.body.docs[0].should.be.an('object').that.has.all.keys(payloadFields)
         })
 
-        
         it ('GET /knights/:id', async () => {
             const res = await request(app).get(`/knights/${KNIGHT_LINK_ID}`)
             res.status.should.be.equals(200)
@@ -73,6 +72,19 @@ describe('REST API', () => {
             res.body.should.have.property('name').equals(KNIGHT_LINK.name)
         })
 
+        it ('GET /knights?filter=heroes', async () => {
+            /*kills the hero of hyrule :( */
+            const query = { _id: KNIGHT_LINK_ID, decease: { $exists: false }}
+            const result = await Knight.updateOne(query, { decease: Date() }, { new: true })
+
+            const res = await request(app)
+                .get(`/knights?filter=heroes`)
+                .expect(200)
+            res.should.have.property('body').that.is.an('object')
+            res.body.should.have.property('docs').that.is.an('array').not.length(0)
+            res.body.docs[0].should.have.property('_id').equals(`${KNIGHT_LINK_ID}`)
+        })
+        
         it ('POST /knights', async () => {
             const res = await request(app)
                 .post('/knights')
@@ -85,6 +97,22 @@ describe('REST API', () => {
             const knight = await Knight.findById(_id)
             knight._id.should.be.deep.equals(Types.ObjectId(_id))
             knight.name.should.be.equals(KNIGHT_LINK.name)
+        })
+
+        it ('POST /knights/:id/weapons', async () => {
+            const body = {
+                "_id": WEAPON_LONGBOW_ID
+            }
+
+            const res = await request(app)
+                .post(`/knights/${KNIGHT_LINK_ID}/weapons`)
+                .send(body)
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(200)
+
+            const knight = await Knight.findById(KNIGHT_LINK_ID)
+            expect(knight.weapons.length).not.be.equal(0)
         })
 
         it ('PUT /knights', async () => {
@@ -164,20 +192,6 @@ describe('REST API', () => {
             const knight = await Knight.findById(KNIGHT_LINK_ID)
             expect(knight).to.be.equal(null)
         })
-
-        it ('GET /knights?filter=heroes', async () => {
-            /*kills the hero of hyrule :( */
-            const query = { _id: KNIGHT_LINK_ID, decease: { $exists: false }}
-            const result = await Knight.updateOne(query, { decease: Date() }, { new: true })
-
-            const res = await request(app)
-                .get(`/knights?filter=heroes`)
-                .expect(200)
-            res.should.have.property('body').that.is.an('object')
-            res.body.should.have.property('docs').that.is.an('array').not.length(0)
-            res.body.docs[0].should.have.property('_id').equals(`${KNIGHT_LINK_ID}`)
-        })
-
         
     })
 })
