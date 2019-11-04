@@ -1,5 +1,6 @@
 const { Should, expect } = require('chai')
 const request = require('supertest')
+const {Types} = require('mongoose')
 
 const Weapon = require('../models/weapon')
 const app = require('..')
@@ -31,6 +32,19 @@ describe('REST API', () => {
             res.should.have.property('body').that.is.an('object')
             res.body.should.have.property('docs').that.is.an('array').not.length(0)
             res.body.docs[0].should.be.an('object').that.has.property("_id").equals(`${WEAPON_LONGBOW_ID}`)
+        })
+
+        it ('POST /weapons', async () => {
+            const res = await request(app)
+                .post('/weapons')
+                .send(WEAPON_LONGBOW)
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(201)
+            const { _id } = res.body
+            const weapon = await Weapon.findById(_id)
+            weapon._id.should.be.deep.equals(Types.ObjectId(_id))
+            weapon.name.should.be.equals(WEAPON_LONGBOW.name)
         })
     })
 })

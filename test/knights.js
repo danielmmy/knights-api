@@ -66,14 +66,14 @@ describe('REST API', () => {
         })
 
         
-        it ('GET /knight/:id', async () => {
+        it ('GET /knights/:id', async () => {
             const res = await request(app).get(`/knights/${KNIGHT_LINK_ID}`)
             res.status.should.be.equals(200)
             res.should.have.property('body').that.is.an('object')
             res.body.should.have.property('name').equals(KNIGHT_LINK.name)
         })
 
-        it ('POST /knight', async () => {
+        it ('POST /knights', async () => {
             const res = await request(app)
                 .post('/knights')
                 .send(KNIGHT_LINK)
@@ -87,7 +87,7 @@ describe('REST API', () => {
             knight.name.should.be.equals(KNIGHT_LINK.name)
         })
 
-        it ('PUT /knight', async () => {
+        it ('PUT /knights', async () => {
             const body = {
                 "attributes.strength": 18
             }
