@@ -46,5 +46,13 @@ describe('REST API', () => {
             weapon._id.should.be.deep.equals(Types.ObjectId(_id))
             weapon.name.should.be.equals(WEAPON_LONGBOW.name)
         })
+
+        it ('DELETE /weapons/:id', async () => {
+            const res = await request(app)
+                .delete(`/weapons/${WEAPON_LONGBOW_ID}`)
+                .expect(204)
+            const weapon = await Weapon.findById(WEAPON_LONGBOW_ID)
+            expect(weapon).to.be.equal(null)
+        })
     })
 })

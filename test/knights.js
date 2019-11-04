@@ -100,7 +100,7 @@ describe('REST API', () => {
             res.body.attributes.strength.should.be.equals(18)
         })
 
-        it ('PATCH /knight/:id', async () => {
+        it ('PATCH /knights/:id', async () => {
             const body = {
                 "nickname": "The green hero"
             }
@@ -113,7 +113,7 @@ describe('REST API', () => {
             res.body.nickname.should.be.equals(body.nickname)
         })
 
-        it ('PATCH /knight/:id/died', async () => {
+        it ('PATCH /knights/:id/died', async () => {
             const body = {
                 "nickname": "The green hero"
             }
@@ -129,7 +129,7 @@ describe('REST API', () => {
             
         })
 
-        it ('PATCH /knight/:id/weapons/equip', async () => {
+        it ('PATCH /knights/:id/weapons/equip', async () => {
             
             /*Add one weapon to inventory */
             let knight = await Knight.findByIdAndUpdate(KNIGHT_LINK_ID, {
@@ -157,7 +157,7 @@ describe('REST API', () => {
             
         })
 
-        it ('DELETE /knight/:id', async () => {
+        it ('DELETE /knights/:id', async () => {
             const res = await request(app)
                 .delete(`/knights/${KNIGHT_LINK_ID}`)
                 .expect(204)
